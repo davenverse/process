@@ -24,21 +24,33 @@ lazy val core = crossProject(JVMPlatform, JSPlatform)
   .in(file("core"))
   .settings(
     name := "process",
-
     libraryDependencies ++= Seq(
       "org.typelevel"               %%% "cats-core"                  % catsV,
       "org.typelevel"               %%% "cats-effect"                % catsEffectV,
-
       "co.fs2"                      %%% "fs2-core"                   % fs2V,
-      // "co.fs2"                      %%% "fs2-io"                     % fs2V,
 
       "org.typelevel"               %%% "munit-cats-effect-3"        % munitCatsEffectV         % Test,
-
     )
   ).jsSettings(
     scalaJSUseMainModuleInitializer := true,
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule)},
   )
+
+lazy val examples = crossProject(JVMPlatform, JSPlatform)
+  .crossType(CrossType.Pure)
+  .in(file("examples"))
+  .disablePlugins(MimaPlugin)
+  .enablePlugins(NoPublishPlugin)
+  .dependsOn(core)
+  .settings(
+    name := "process-examples",
+    run / fork := true,
+  ).jsSettings(
+    scalaJSUseMainModuleInitializer := true,
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule)},
+  )
+
+
 
 lazy val site = project.in(file("site"))
   .disablePlugins(MimaPlugin)
