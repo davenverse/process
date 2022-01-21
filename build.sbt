@@ -17,7 +17,7 @@ val munitCatsEffectV = "1.0.7"
 lazy val `process` = project.in(file("."))
   .disablePlugins(MimaPlugin)
   .enablePlugins(NoPublishPlugin)
-  .aggregate(core.jvm, core.js)
+  .aggregate(core.jvm, core.js, exmaples.jvm, examples.js)
 
 lazy val core = crossProject(JVMPlatform, JSPlatform)
   .crossType(CrossType.Full)
@@ -32,7 +32,6 @@ lazy val core = crossProject(JVMPlatform, JSPlatform)
       "org.typelevel"               %%% "munit-cats-effect-3"        % munitCatsEffectV         % Test,
     )
   ).jsSettings(
-    scalaJSUseMainModuleInitializer := true,
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule)},
   )
 
