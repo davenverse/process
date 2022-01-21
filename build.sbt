@@ -2,7 +2,7 @@ import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 val Scala213 = "2.13.7"
 
-ThisBuild / crossScalaVersions := Seq("2.12.15", Scala213)
+ThisBuild / crossScalaVersions := Seq("2.12.15", Scala213, "3.1.0")
 ThisBuild / scalaVersion := Scala213
 
 ThisBuild / testFrameworks += new TestFramework("munit.Framework")
@@ -17,7 +17,7 @@ val munitCatsEffectV = "1.0.7"
 lazy val `process` = project.in(file("."))
   .disablePlugins(MimaPlugin)
   .enablePlugins(NoPublishPlugin)
-  .aggregate(core.jvm, core.js, exmaples.jvm, examples.js)
+  .aggregate(core.jvm, core.js, examples.jvm, examples.js)
 
 lazy val core = crossProject(JVMPlatform, JSPlatform)
   .crossType(CrossType.Full)
