@@ -18,8 +18,8 @@ trait ChildProcessCompanionPlatform {
             cb(Left(new Throwable(s"Failed Process Execution, ${error.cmd.toOption} ${error.message}")))
           } else cb(Right((stdout, stderr)))
         }
-        internal.childProcessMod.exec(commandS, method)
-        None
+        val process = internal.childProcessMod.exec(commandS, method)
+        Some(Async[F].delay(process.kill()).void)
       }
     }
 
