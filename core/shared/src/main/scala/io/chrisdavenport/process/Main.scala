@@ -6,7 +6,7 @@ object Main extends IOApp {
 
   def run(args: List[String]): IO[ExitCode] = {
     val cp = ChildProcess.impl[IO]
-    cp.exec("echo", "foo" :: Nil).flatTap(s => IO.println(s"${s} ${s.length}")) >>
+    cp.exec("fail", Nil).flatTap(s => IO.println(s"${s} ${s.length}")) >>
     IO.unit.as(ExitCode.Success)
   }
 
