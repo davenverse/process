@@ -11,6 +11,11 @@ trait ChildProcessCompanionPlatform {
       import sys.process._
       (command :: args).!!
     }
+    def execCode(command: String, args: List[String]): F[Int] = Sync[F].delay{
+      import sys.process._
+      // TODO Get rid of this as it sends stdout to the process console
+      (command :: args).! 
+    }
   }
   
 }

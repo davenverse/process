@@ -4,6 +4,8 @@ import cats.syntax.all._
 import cats.effect._
 import scalajs.js
 import scalajs.js.|
+import js.JSConverters._
+
 
 trait ChildProcessCompanionPlatform {
 
@@ -18,6 +20,19 @@ trait ChildProcessCompanionPlatform {
         }
         internal.childProcessMod.exec(commandS, method)
         None
+      }
+    }
+
+    def execCode(command: String, args: List[String]): F[Int] = Async[F].async{(cb: Either[Throwable, Int] => Unit) => 
+      Async[F].delay{
+        def onExit(int: Double, signal: String): Unit = 
+          cb(Either.right(int.toInt))
+        def onError(error: scalajs.js.Error): Unit = 
+          cb(Either.left(new Throwable(s"${error.name}: ${error.message}")))
+        val process = internal.childProcessMod.spawn(command, args.toJSArray)
+        process.addListener_exit(internal.childProcessMod.exit, onExit)
+        process.addListener_error(internal.childProcessMod.error, onError)
+        Some(Async[F].delay(process.kill()).void)
       }
     }
     

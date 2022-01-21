@@ -4,6 +4,7 @@ import cats.effect._
 
 trait ChildProcess[F[_]]{
   def exec(command: String, args: List[String] = List.empty): F[String]
+  def execCode(command: String, args: List[String] = List.empty): F[Int]
 }
 
 object ChildProcess extends ChildProcessCompanionPlatform {
