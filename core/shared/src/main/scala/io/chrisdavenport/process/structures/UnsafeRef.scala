@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicReference
 import scala.annotation.tailrec
 
 
-trait UnsafeRef[A]{
+private[process] trait UnsafeRef[A]{
   def get: A
   def set(a: A): Unit 
   def getAndSet(a: A): A 
@@ -18,12 +18,12 @@ trait UnsafeRef[A]{
   def modify[B](f: A => (A, B)): B 
 }
 
-object UnsafeRef {
+private[process] object UnsafeRef {
 
   // Do whatever you want, but make sure its wrapped in a sync block
   def of[A](a: A): UnsafeRef[A] = new SyncRef[A](new AtomicReference[A](a)) 
 
-  final private class SyncRef[A](ar: AtomicReference[A]) extends UnsafeRef[A]{
+  final private class SyncRef[A](private[this] val ar: AtomicReference[A]) extends UnsafeRef[A]{
     def get: A = ar.get
 
     def set(a: A): Unit = ar.set(a)

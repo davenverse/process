@@ -7,10 +7,10 @@ import java.util.concurrent.atomic.AtomicReference
 import cats.effect._
 import cats.syntax.all._
 
-trait UnsafeDeferred[F[_], A] extends cats.effect.kernel.DeferredSource[F, A]{
+private[process] trait UnsafeDeferred[F[_], A] extends cats.effect.kernel.DeferredSource[F, A]{
   def complete(a: A): Boolean
 }
-object UnsafeDeferred {
+private[process] object UnsafeDeferred {
   sealed abstract private class State[A]
   private object State {
     final case class Set[A](a: A) extends State[A]

@@ -4,18 +4,18 @@ import cats.effect._
 import fs2.Chunk
 import cats.syntax.all._
 
-trait UnsafeByteQueue[F[_]]{
+private[process] trait UnsafeByteQueue[F[_]]{
   def close(): Unit
   def offer(chunk: Chunk[Byte]): Unit
   def get: F[Option[Chunk[Byte]]]
   def reads = fs2.Stream.repeatEval(get).unNoneTerminate.flatMap(fs2.Stream.chunk)
 }
 
-object UnsafeByteQueue {
+private[process] object UnsafeByteQueue {
 
   def impl[F[_]: Async]: UnsafeByteQueue[F] = new ByteQueueImpl[F](UnsafeRef.of(Right(Chunk.empty, false)))
 
-  class ByteQueueImpl[F[_]: Async](ref: UnsafeRef[Either[UnsafeDeferred[F, Unit], (Chunk[Byte], Boolean)]] ) extends UnsafeByteQueue[F]{
+  class ByteQueueImpl[F[_]: Async](private[this] val ref: UnsafeRef[Either[UnsafeDeferred[F, Unit], (Chunk[Byte], Boolean)]] ) extends UnsafeByteQueue[F]{
     def close(): Unit = ref.modify{
       case Left(defer) => ((Chunk.empty[Byte], true).asRight, {_: Unit => defer.complete(())})
       case Right((chunk, _)) => ((chunk, true).asRight, {_: Unit => ()})
