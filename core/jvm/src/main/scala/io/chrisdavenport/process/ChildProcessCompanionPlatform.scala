@@ -16,6 +16,8 @@ trait ChildProcessCompanionPlatform {
       // TODO Get rid of this as it sends stdout to the process console
       (command :: args).! 
     }
+
+    def spawn(process: Process): F[RunningProcess[F]] = ???
   }
   
 }
