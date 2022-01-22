@@ -3,13 +3,99 @@ package io.chrisdavenport.process.internal
 import scala.scalajs.js
 import scala.scalajs.js.`|`
 import scala.scalajs.js.annotation.{JSGlobalScope, JSGlobal, JSImport, JSName, JSBracketAccess}
-import fs2.io.Readable
+// import fs2.io.Readable
 import fs2.io.Writable
 
 object childProcessMod {
   @JSImport("child_process", JSImport.Namespace)
   @js.native
   val ^ : js.Any = js.native
+
+  object strings {
+    @js.native
+    sealed trait readable extends js.Any
+    @scala.inline
+    def readable: readable = "readable".asInstanceOf[readable]
+
+    @js.native
+    sealed trait close extends js.Any
+    @scala.inline
+    def close: close = "close".asInstanceOf[close]
+
+    @js.native
+    sealed trait disconnect extends js.Any
+    @scala.inline
+    def disconnect: disconnect = "disconnect".asInstanceOf[disconnect]
+
+    @js.native
+    sealed trait error extends js.Any
+    @scala.inline
+    def error: error = "error".asInstanceOf[error]
+
+    @js.native
+    sealed trait exit extends js.Any
+    @scala.inline
+    def exit: exit = "exit".asInstanceOf[exit]
+
+    @js.native
+    sealed trait spawn extends js.Any
+    @scala.inline
+    def spawn: spawn = "spawn".asInstanceOf[spawn]    
+
+  }
+  import strings._
+
+
+
+  @JSImport("stream", "Readable")
+  @js.native
+  class Readable ()
+    extends js.Any {
+    
+    def _read(size: Double): Unit = js.native
+    
+    /**
+      * Event emitter
+      * The defined events on documents including:
+      * 1. close
+      * 2. data
+      * 3. end
+      * 4. error
+      * 5. pause
+      * 6. readable
+      * 7. resume
+      */
+    // @JSName("addListener")
+    // def addListener_close(event: close, listener: js.Function0[Unit]): this.type = js.native
+    // @JSName("addListener")
+    // def addListener_data(event: data, listener: js.Function1[/* chunk */ js.Any, Unit]): this.type = js.native
+    // @JSName("addListener")
+    // def addListener_end(event: end, listener: js.Function0[Unit]): this.type = js.native
+    // @JSName("addListener")
+    // def addListener_error(event: error, listener: js.Function1[/* err */ js.Error, Unit]): this.type = js.native
+    // @JSName("addListener")
+    // def addListener_pause(event: pause, listener: js.Function0[Unit]): this.type = js.native
+    @JSName("addListener")
+    def addListener_readable(event: readable, listener: js.Function0[Unit]): this.type = js.native
+    // @JSName("addListener")
+    // def addListener_resume(event: resume, listener: js.Function0[Unit]): this.type = js.native
+    
+    def destroy(): Unit = js.native
+    def destroy(error: js.Error): Unit = js.native
+    
+    var destroyed: Boolean = js.native
+
+    def read(): js.typedarray.Uint8Array = js.native
+    
+    
+    val readableEnded: Boolean = js.native
+    
+    val readableFlowing: Boolean | Null = js.native
+    
+    val readableHighWaterMark: Double = js.native
+    
+    val readableLength: Double = js.native
+  }
 
   @js.native
   trait ExecException extends js.Any {
@@ -29,31 +115,7 @@ object childProcessMod {
     var signal: js.UndefOr[String] = js.native
   }
 
-  @js.native
-  sealed trait close extends js.Any
-  @scala.inline
-  def close: close = "close".asInstanceOf[close]
 
-  @js.native
-  sealed trait disconnect extends js.Any
-  @scala.inline
-  def disconnect: disconnect = "disconnect".asInstanceOf[disconnect]
-
-  @js.native
-  sealed trait error extends js.Any
-  @scala.inline
-  def error: error = "error".asInstanceOf[error]
-
-  @js.native
-  sealed trait exit extends js.Any
-  @scala.inline
-  def exit: exit = "exit".asInstanceOf[exit]
-
-  @js.native
-  sealed trait spawn extends js.Any
-  @scala.inline
-  def spawn: spawn = "spawn".asInstanceOf[spawn]
-  
 
   @js.native
   trait ChildProcess extends js.Any {
@@ -90,149 +152,14 @@ object childProcessMod {
     
     def disconnect(): Unit = js.native
     
-    // def emit(event: String, args: js.Any*): Boolean = js.native
-    // def emit(event: js.Symbol, args: js.Any*): Boolean = js.native
-    // @JSName("emit")
-    // def emit_close(event: close): Boolean = js.native
-    // @JSName("emit")
-    // def emit_close(event: close, code: Double): Boolean = js.native
-    // @JSName("emit")
-    // def emit_close(event: close, code: Double, signal: Signals): Boolean = js.native
-    // @JSName("emit")
-    // def emit_close(event: close, code: Null, signal: Signals): Boolean = js.native
-    // @JSName("emit")
-    // def emit_disconnect(event: disconnect): Boolean = js.native
-    // @JSName("emit")
-    // def emit_error(event: error, err: js.Error): Boolean = js.native
-    // @JSName("emit")
-    // def emit_exit(event: exit): Boolean = js.native
-    // @JSName("emit")
-    // def emit_exit(event: exit, code: Double): Boolean = js.native
-    // @JSName("emit")
-    // def emit_exit(event: exit, code: Double, signal: Signals): Boolean = js.native
-    // @JSName("emit")
-    // def emit_exit(event: exit, code: Null, signal: Signals): Boolean = js.native
-    // @JSName("emit")
-    // def emit_message(event: message, message: Serializable, sendHandle: SendHandle): Boolean = js.native
-    // @JSName("emit")
-    // def emit_spawn(event: fs2.internal.jsdeps.node.nodeStrings.spawn, listener: js.Function0[Unit]): Boolean = js.native
-    
     // Double | Null
     val exitCode: Double = js.native
     
     def kill(): Boolean = js.native
-    // def kill(signal: Signals): Boolean = js.native
-    // def kill(signal: Double): Boolean = js.native
     
     val killed: Boolean = js.native
     
-    // def on(event: String, listener: js.Function1[/* repeated */ js.Any, Unit]): this.type = js.native
-    // @JSName("on")
-    // def on_close(event: close, listener: js.Function2[/* code */ Double | Null, /* signal */ Signals | Null, Unit]): this.type = js.native
-    // @JSName("on")
-    // def on_disconnect(event: disconnect, listener: js.Function0[Unit]): this.type = js.native
-    // @JSName("on")
-    // def on_error(event: error, listener: js.Function1[/* err */ js.Error, Unit]): this.type = js.native
-    // @JSName("on")
-    // def on_exit(event: exit, listener: js.Function2[/* code */ Double | Null, /* signal */ Signals | Null, Unit]): this.type = js.native
-    // @JSName("on")
-    // def on_message(
-    //   event: message,
-    //   listener: js.Function2[/* message */ Serializable, /* sendHandle */ SendHandle, Unit]
-    // ): this.type = js.native
-    // @JSName("on")
-    // def on_spawn(event: fs2.internal.jsdeps.node.nodeStrings.spawn, listener: js.Function0[Unit]): this.type = js.native
-    
-    // def once(event: String, listener: js.Function1[/* repeated */ js.Any, Unit]): this.type = js.native
-    // @JSName("once")
-    // def once_close(event: close, listener: js.Function2[/* code */ Double | Null, /* signal */ Signals | Null, Unit]): this.type = js.native
-    // @JSName("once")
-    // def once_disconnect(event: disconnect, listener: js.Function0[Unit]): this.type = js.native
-    // @JSName("once")
-    // def once_error(event: error, listener: js.Function1[/* err */ js.Error, Unit]): this.type = js.native
-    // @JSName("once")
-    // def once_exit(event: exit, listener: js.Function2[/* code */ Double | Null, /* signal */ Signals | Null, Unit]): this.type = js.native
-    // @JSName("once")
-    // def once_message(
-    //   event: message,
-    //   listener: js.Function2[/* message */ Serializable, /* sendHandle */ SendHandle, Unit]
-    // ): this.type = js.native
-    // @JSName("once")
-    // def once_spawn(event: fs2.internal.jsdeps.node.nodeStrings.spawn, listener: js.Function0[Unit]): this.type = js.native
-    
     val pid: js.UndefOr[Double] = js.native
-    
-    // def prependListener(event: String, listener: js.Function1[/* repeated */ js.Any, Unit]): this.type = js.native
-    // @JSName("prependListener")
-    // def prependListener_close(event: close, listener: js.Function2[/* code */ Double | Null, /* signal */ Signals | Null, Unit]): this.type = js.native
-    // @JSName("prependListener")
-    // def prependListener_disconnect(event: disconnect, listener: js.Function0[Unit]): this.type = js.native
-    // @JSName("prependListener")
-    // def prependListener_error(event: error, listener: js.Function1[/* err */ js.Error, Unit]): this.type = js.native
-    // @JSName("prependListener")
-    // def prependListener_exit(event: exit, listener: js.Function2[/* code */ Double | Null, /* signal */ Signals | Null, Unit]): this.type = js.native
-    // @JSName("prependListener")
-    // def prependListener_message(
-    //   event: message,
-    //   listener: js.Function2[/* message */ Serializable, /* sendHandle */ SendHandle, Unit]
-    // ): this.type = js.native
-    // @JSName("prependListener")
-    // def prependListener_spawn(event: fs2.internal.jsdeps.node.nodeStrings.spawn, listener: js.Function0[Unit]): this.type = js.native
-    
-    // def prependOnceListener(event: String, listener: js.Function1[/* repeated */ js.Any, Unit]): this.type = js.native
-    // @JSName("prependOnceListener")
-    // def prependOnceListener_close(event: close, listener: js.Function2[/* code */ Double | Null, /* signal */ Signals | Null, Unit]): this.type = js.native
-    // @JSName("prependOnceListener")
-    // def prependOnceListener_disconnect(event: disconnect, listener: js.Function0[Unit]): this.type = js.native
-    // @JSName("prependOnceListener")
-    // def prependOnceListener_error(event: error, listener: js.Function1[/* err */ js.Error, Unit]): this.type = js.native
-    // @JSName("prependOnceListener")
-    // def prependOnceListener_exit(event: exit, listener: js.Function2[/* code */ Double | Null, /* signal */ Signals | Null, Unit]): this.type = js.native
-    // @JSName("prependOnceListener")
-    // def prependOnceListener_message(
-    //   event: message,
-    //   listener: js.Function2[/* message */ Serializable, /* sendHandle */ SendHandle, Unit]
-    // ): this.type = js.native
-    // @JSName("prependOnceListener")
-    // def prependOnceListener_spawn(event: fs2.internal.jsdeps.node.nodeStrings.spawn, listener: js.Function0[Unit]): this.type = js.native
-    
-    // def ref(): Unit = js.native
-    
-    // def send(message: Serializable): Boolean = js.native
-    // def send(message: Serializable, callback: js.Function1[/* error */ js.Error | Null, Unit]): Boolean = js.native
-    // def send(message: Serializable, sendHandle: SendHandle): Boolean = js.native
-    // def send(
-    //   message: Serializable,
-    //   sendHandle: SendHandle,
-    //   callback: js.Function1[/* error */ js.Error | Null, Unit]
-    // ): Boolean = js.native
-    // def send(message: Serializable, sendHandle: SendHandle, options: MessageOptions): Boolean = js.native
-    // def send(
-    //   message: Serializable,
-    //   sendHandle: SendHandle,
-    //   options: MessageOptions,
-    //   callback: js.Function1[/* error */ js.Error | Null, Unit]
-    // ): Boolean = js.native
-    // def send(
-    //   message: Serializable,
-    //   sendHandle: SendHandle,
-    //   options: Unit,
-    //   callback: js.Function1[/* error */ js.Error | Null, Unit]
-    // ): Boolean = js.native
-    // def send(message: Serializable, sendHandle: Unit, callback: js.Function1[/* error */ js.Error | Null, Unit]): Boolean = js.native
-    // def send(message: Serializable, sendHandle: Unit, options: MessageOptions): Boolean = js.native
-    // def send(
-    //   message: Serializable,
-    //   sendHandle: Unit,
-    //   options: MessageOptions,
-    //   callback: js.Function1[/* error */ js.Error | Null, Unit]
-    // ): Boolean = js.native
-    // def send(
-    //   message: Serializable,
-    //   sendHandle: Unit,
-    //   options: Unit,
-    //   callback: js.Function1[/* error */ js.Error | Null, Unit]
-    // ): Boolean = js.native
     
     val signalCode: String = js.native
     
