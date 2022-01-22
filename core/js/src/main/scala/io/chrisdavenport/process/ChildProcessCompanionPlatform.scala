@@ -104,9 +104,9 @@ trait ChildProcessCompanionPlatform {
         
         def terminate: F[Unit] = Async[F].delay(iprocess.kill()).void
         
-        def stdout: fs2.Stream[F,Byte] = stdoutBuffer.reads //Stream.resource(fs2.io.suspendReadableAndRead(false, false)(iprocess.stdout)).flatMap(_._2)
+        def stdout: fs2.Stream[F,Byte] = stdoutBuffer.reads
         
-        def stderr: fs2.Stream[F,Byte] = stderrBuffer.reads // Stream.resource(fs2.io.suspendReadableAndRead(false, false)(iprocess.stderr)).flatMap(_._2)
+        def stderr: fs2.Stream[F,Byte] = stderrBuffer.reads
         
       }
     }
