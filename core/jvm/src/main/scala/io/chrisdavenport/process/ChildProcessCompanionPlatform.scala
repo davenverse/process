@@ -20,13 +20,12 @@ trait ChildProcessCompanionPlatform {
       val p = new java.lang.ProcessBuilder((process.command :: process.args).asJava).start()//.directory(new java.io.File(wd)).start()
       val done = Async[F].fromCompletableFuture(Sync[F].delay(p.onExit()))
 
-
       new RunningProcess[F] {
         def getExitCode: F[Int] = done.map(_ => p.exitValue())
         def writeToStdIn(s: fs2.Stream[F,Byte]): F[Unit] =  s
-                        .through(fs2.io.writeOutputStream[F](Sync[F].interruptible(p.getOutputStream())))
-                        .compile
-                        .drain
+          .through(fs2.io.writeOutputStream[F](Sync[F].interruptible(p.getOutputStream())))
+          .compile
+          .drain
         
         def terminate: F[Unit] = Sync[F].interruptible(p.destroy())
         
