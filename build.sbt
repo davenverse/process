@@ -4,7 +4,7 @@ val Scala213 = "2.13.7"
 
 ThisBuild / crossScalaVersions := Seq("2.12.15", Scala213, "3.1.0")
 ThisBuild / scalaVersion := Scala213
-
+ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / testFrameworks += new TestFramework("munit.Framework")
 
 val catsV = "2.7.0"
