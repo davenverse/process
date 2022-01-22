@@ -4,6 +4,8 @@
 
 ## Quick Start
 
+Requires JDK 11+
+
 To use process in an existing SBT project with Scala 2.12 or a later version, add the following dependencies to your
 `build.sbt` depending on your needs:
 
