@@ -17,15 +17,15 @@ private[process] object UnsafeByteQueue {
 
   class ByteQueueImpl[F[_]: Async](private[this] val ref: UnsafeRef[Either[UnsafeDeferred[F, Unit], (Chunk[Byte], Boolean)]] ) extends UnsafeByteQueue[F]{
     def close(): Unit = ref.modify{
-      case Left(defer) => ((Chunk.empty[Byte], true).asRight, {_: Unit => defer.complete(())})
-      case Right((chunk, _)) => ((chunk, true).asRight, {_: Unit => ()})
-    }()
+      case Left(defer) => ((Chunk.empty[Byte], true).asRight, {(_: Unit) => {defer.complete(()); ()}})
+      case Right((chunk, _)) => ((chunk, true).asRight, {(_: Unit) => ()})
+    }(())
 
     def offer(chunk: Chunk[Byte]): Unit = ref.modify{
-      case Left(defer) => (Right((chunk, false)), {_: Unit => defer.complete(())})
-      case Right((init, false)) => (Right(init ++ chunk, false), {_: Unit => ()})
-      case Right(init) => init.asRight -> {_: Unit => ()}
-    }()
+      case Left(defer) => (Right((chunk, false)), {(_: Unit) => {defer.complete(()); ()}})
+      case Right((init, false)) => (Right(init ++ chunk, false), {(_: Unit) => ()})
+      case Right(init) => init.asRight -> {(_: Unit) => ()}
+    }(())
     
     def get: F[Option[Chunk[Byte]]] = Sync[F].delay(ref.modify{
       case Left(e) => (Left(e), new Throwable("Only 1 Get Allowed at a time").raiseError[F, Option[Chunk[Byte]]])

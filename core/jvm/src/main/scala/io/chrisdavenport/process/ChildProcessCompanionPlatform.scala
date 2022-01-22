@@ -16,7 +16,7 @@ trait ChildProcessCompanionPlatform {
     val readBufferSize = 4096
 
     def spawn(process: Process): F[RunningProcess[F]] = Async[F].interruptible{
-      import scala.jdk.CollectionConverters._
+      import JDKCollectionConvertersCompat.Converters._
       val p = new java.lang.ProcessBuilder((process.command :: process.args).asJava).start()//.directory(new java.io.File(wd)).start()
       val done = Async[F].fromCompletableFuture(Sync[F].delay(p.onExit()))
 
