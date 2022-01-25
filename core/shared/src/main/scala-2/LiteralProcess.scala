@@ -1,5 +1,6 @@
 package io.chrisdavenport.process
 
+import scala.language.experimental.macros
 import org.typelevel.literally.Literally
 
 object LiteralProcess {
@@ -15,8 +16,8 @@ object LiteralProcess {
   }
 
   trait LiteralProcessSyntax {
-    final implicit class IpLiteralSyntax(val sc: StringContext) extends AnyVal {
-      def process(args: Any*): Process = macro Literals.process.make
+    final implicit class IpLiteralSyntax(private val sc: StringContext) {
+      def process(args: Any*): Process = macro LiteralProcess.process.make
     }
   }
 
