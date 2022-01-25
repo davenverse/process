@@ -1,9 +1,6 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
-val Scala213 = "2.13.7"
-
-ThisBuild / crossScalaVersions := Seq("2.12.15", Scala213, "3.1.0")
-ThisBuild / scalaVersion := Scala213
+ThisBuild / crossScalaVersions := Seq("2.12.15", "2.13.8", "3.1.0")
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / testFrameworks += new TestFramework("munit.Framework")
 
@@ -31,9 +28,14 @@ lazy val core = crossProject(JVMPlatform, JSPlatform)
       "org.typelevel"               %%% "cats-effect"                % catsEffectV,
       "co.fs2"                      %%% "fs2-core"                   % fs2V,
       "co.fs2"                      %%% "fs2-io"                     % fs2V,
+      "org.typelevel"               %%% "literally"                  % "1.0.2",
 
       "org.typelevel"               %%% "munit-cats-effect-3"        % munitCatsEffectV         % Test,
-    )
+    ),
+    libraryDependencies ++= {
+      if (isDotty.value) Nil
+      else List("org.scala-lang" % "scala-reflect" % scalaVersion.value % "provided")
+    },
   ).jsSettings(
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule)},
   )
