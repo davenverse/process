@@ -6,12 +6,12 @@ import cats.syntax.all._
 trait ChildProcessCompanionPlatform {
 
   private[process] class ChildProcessImpl[F[_]: Async] extends ChildProcess[F]{
-    def exec(command: String, args: List[String]): F[String] = 
-      spawn(Process(command, args))
+    def exec(process: Process): F[String] = 
+      spawn(process)
         .flatMap(_.stdout.through(fs2.text.utf8.decode).compile.string)
 
-    def execCode(command: String, args: List[String]): F[Int] = 
-      spawn(Process(command, args)).flatMap(_.getExitCode)
+    def execCode(process: Process): F[Int] = 
+      spawn(process).flatMap(_.getExitCode)
 
     val readBufferSize = 4096
 
