@@ -1,6 +1,6 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
-ThisBuild / crossScalaVersions := Seq("2.12.15", "2.13.8", "3.1.0")
+ThisBuild / crossScalaVersions := Seq("2.12.18", "2.13.8", "3.1.0")
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / testFrameworks += new TestFramework("munit.Framework")
 
