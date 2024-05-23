@@ -9,7 +9,7 @@ ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.11")
 val catsV = "2.7.0"
 val catsEffectV = "3.3.3"
 val fs2V = "3.2.3"
-val munitCatsEffectV = "1.0.7"
+val munitCatsEffectV = "2.0.0"
 
 
 // Projects
@@ -30,7 +30,7 @@ lazy val core = crossProject(JVMPlatform, JSPlatform)
       "co.fs2"                      %%% "fs2-io"                     % fs2V,
       "org.typelevel"               %%% "literally"                  % "1.0.2",
 
-      "org.typelevel"               %%% "munit-cats-effect-3"        % munitCatsEffectV         % Test,
+      "org.typelevel"               %%% "munit-cats-effect"        % munitCatsEffectV         % Test,
     ),
     libraryDependencies ++= {
       if (isDotty.value) Nil
